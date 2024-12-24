@@ -6,7 +6,7 @@
 #include <condition_variable>
 #include <functional>
 #include <vector>
-#include <deque>
+#include <queue>
 #include <type_traits>
 
 class threadPool 
@@ -22,48 +22,52 @@ public:
 
     ~threadPool()
     {
-        //std::lock_guard<std::mutex> lock(m_mutex);
-        m_isActive = false;
-        m_cv.notify_all();
-        for (auto &thread : m_pool)
         {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            m_isActive = false;
+        }
+        m_cv.notify_all();
+        for (auto& thread : m_pool)
+        {   
             if (thread.joinable())
+            {
                 thread.join();
+            }
         }
     }
 
     void post(std::packaged_task<void()> task)
     {
         std::lock_guard lock(m_mutex);
-        m_tasks.emplace_back(std::move(task));
+        m_tasks.emplace(std::move(task));
         m_cv.notify_one();
     }
-
+    
 private:
     void run() noexcept
     {
-        while (m_isActive)
+        while (true)
         {
             thread_local std::packaged_task<void()> task;
             {
                 std::unique_lock<std::mutex> lock(m_mutex);
                 m_cv.wait(lock, [&] () 
-                                { 
-                                    return !m_isActive || !m_tasks.empty(); 
-                                });
-                if (!m_isActive)
+                { 
+                    return !m_isActive || !m_tasks.empty(); 
+                });
+                if (!m_isActive && m_tasks.empty())
                 {
-                    break;
+                    return;
                 }
                 task.swap(m_tasks.front());
-                m_tasks.pop_front();
+                m_tasks.pop();
             }
             task();
         }
     }
 
     std::vector<std::thread> m_pool;
-    std::deque<std::packaged_task<void()>> m_tasks;
+    std::queue<std::packaged_task<void()>> m_tasks;
     std::mutex m_mutex;
     std::condition_variable m_cv;
     std::atomic<bool> m_isActive {true};
@@ -129,23 +133,23 @@ using namespace std::chrono_literals;
 int main()
 {
     threadPool pool(5);
-    //std::cout << "Result = " << waiter.get() << '\n';
 
     for (int i = 0; i < 5; ++i) {
         post(pool, [i]() {
+            std::this_thread::sleep_for(1s);
             std::cout << "Task " << i << " executed by thread " << std::this_thread::get_id() << std::endl;
-            std::this_thread::sleep_for(50ms);
         });
     }
 
     auto waiter = 
         post(pool, useFuture([]() -> int
         {
-            //std::this_thread::sleep_for(1s);
+            std::this_thread::sleep_for(1s);
             return 42;
         }));
+    std::cout << "Result = " << waiter.get() << '\n';
 
-    return waiter.get();
+    return 0;
 }
 
 
