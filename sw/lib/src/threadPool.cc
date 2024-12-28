@@ -1,6 +1,6 @@
 #include "threadPool.h"
 
-threadPool::threadPool(int numThreads = std::thread::hardware_concurrency())
+threadPool::threadPool(int numThreads)
 {
     for (int i = 0; i < numThreads; i++)
     {
@@ -31,7 +31,7 @@ void threadPool::post(std::packaged_task<void()> task)
     m_cv.notify_one();
 }
 
-void threadPool::run()
+void threadPool::run() noexcept
 {
     while (true)
     {

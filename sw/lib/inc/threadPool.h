@@ -39,20 +39,5 @@ private:
     std::queue<std::packaged_task<void()>> m_tasks;
     std::mutex m_mutex;
     std::condition_variable m_cv;
-    std::atomic<bool> m_isActive {true};
-    
-    /**
-    As the thread_pool class only accepts std::packaged_task<void()> type of callable into its queue, I had to create helper struct forwardHelper, a local callable class  which makes the actual function call, stores the return value into a promise object and returns void
-    */
-    template <class Fn>
-    struct forwardHelper
-    {
-        forwardHelper(Fn&& fn) : task(std::forward<Fn> (fn)) {};
-        void operator() (std::shared_ptr<std::promise<returnType>> promise) noexcept
-        {
-            promise->set_value(task());
-        }   
-    private:
-        std::decay_t<Fn> task;
-    };    
+    std::atomic<bool> m_isActive {true};  
 };
