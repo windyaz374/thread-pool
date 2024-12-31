@@ -21,7 +21,7 @@ if(CLANG_FORMAT)
     # Add target to check formatting
     add_custom_target( format-check
         COMMAND ${CLANG_FORMAT} 
-        -style=file 
+        --style=file 
         --dry-run
         --Werror
         ${ALL_SOURCE_FILES}
@@ -32,7 +32,7 @@ if(CLANG_FORMAT)
     # Add target to apply formatting
     add_custom_target( format
         COMMAND ${CLANG_FORMAT} 
-        -style=file 
+        --style=file 
         -i
         ${ALL_SOURCE_FILES}
         COMMENT "Applying code formatting with clang-format"
