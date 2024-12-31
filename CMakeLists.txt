@@ -12,5 +12,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pthread")
 # Add main subdirectory
 add_subdirectory(sw)
 
+# Add formatting utilities
+include(cmake/clang_format.cmake)
+
 # Enable testing
 #enable_testing()
