@@ -16,35 +16,32 @@ set_target_properties(thread_pool
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
 
-# Add test directory if testing is enabled
-if(BUILD_TESTING)
-    # Add the test executable
-    add_executable(thread_pool_test
-        test/threadPoolTest.cpp
-    )
+# Add the test executable
+add_executable(thread_pool_test
+    test/threadPoolTest.cpp
+)
 
-    # Link test executable with the library
-    target_link_libraries(thread_pool_test
-        PRIVATE
-            thread_pool
-            GTest::gtest_main
-    )
+# Link test executable with the library
+target_link_libraries(thread_pool_test
+    PRIVATE
+        thread_pool
+        GTest::gtest_main
+)
 
-    # Add include directories for test
-    target_include_directories(thread_pool_test
-        PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/inc
-    )
+# Add include directories for test
+target_include_directories(thread_pool_test
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc
+)
 
-    # Add the test to CTest
-    add_test(
-        NAME thread_pool_test
-        COMMAND thread_pool_test
-    )
+# Add the test to CTest
+add_test(
+    NAME thread_pool_test
+    COMMAND thread_pool_test
+)
 
-    # Set output directory for test executable
-    set_target_properties(thread_pool_test
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    )
-endif()
+# Set output directory for test executable
+set_target_properties(thread_pool_test
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)

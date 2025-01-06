@@ -1,6 +1,8 @@
 High priority:
-1. Add unit test to framework which use GoogleTest framework
-   Build and run unit test 
+1. + Add unittest which use GoogleTest framework
+   + Build and run unittest
+   + Source code and unittest was built together?
+   + Each built process always fetch and build gtest, whether effect much more in built time?
 
 Medium priority
 2. The Clang-format feature is applied in pre-commit hook to format the source code according to the coding convention.

@@ -12,7 +12,7 @@ function(setup_google_test)
     FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG release-1.12.1  # Specify the version you want
+        GIT_TAG v1.15.2  # Specify the version you want
         SOURCE_DIR ${GOOGLE_DEPS_BUILD_DIR}/googletest-src
         BINARY_DIR ${GOOGLE_DEPS_BUILD_DIR}/googletest-build
     )
