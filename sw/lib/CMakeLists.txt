@@ -27,6 +27,7 @@ if(BUILD_TESTING)
     target_link_libraries(thread_pool_test
         PRIVATE
             thread_pool
+            GTest::gtest_main
     )
 
     # Add include directories for test

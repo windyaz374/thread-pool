@@ -9,11 +9,15 @@ set(CMAKE_CXX_COMPILER g++)
 # Add compiler flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pthread")
 
-# Add main subdirectory
-add_subdirectory(sw)
+# Include dependencies setup
+include(cmake/dependencies.cmake)
+setup_google_test()
 
 # Add formatting utilities
 include(cmake/clang_format.cmake)
 
+# Add main subdirectory
+add_subdirectory(sw)
+
 # Enable testing
-#enable_testing()
+enable_testing()

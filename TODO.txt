@@ -1,3 +1,8 @@
-1. The Clang-format feature is applied in pre-commit hook to format the source code according to the coding convention.
+High priority:
+1. Add unit test to framework which use GoogleTest framework
+   Build and run unit test 
+
+Medium priority
+2. The Clang-format feature is applied in pre-commit hook to format the source code according to the coding convention.
 However for each commit, it checks and formats the entire code base, not just the changes. This can be time-consuming when working with a large repo.
 To optimize this process, I need to modify the feature to only check and format the code that has been changed code in each commit
