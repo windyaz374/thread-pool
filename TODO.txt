@@ -1,6 +1,7 @@
 High priority:
-1. + Add unittest which use GoogleTest framework
-   + Build and run unittest
+1. + Add unittest which use GoogleTest framework: Done
+   + Build and run with simple unittest: Done
+   + Write almost unittest to cover?
    + Source code and unittest was built together?
    + Each built process always fetch and build gtest, whether effect much more in built time?
 
