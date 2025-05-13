@@ -1,6 +1,5 @@
 # Create library target
 add_library(thread_pool STATIC
-    src/post.cc
     src/threadPool.cc
 )
 
